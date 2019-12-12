@@ -37,7 +37,6 @@ import json
 import logging
 import pickle
 import warnings
-from dataclasses import dataclass
 from datetime import datetime
 
 import pytz
@@ -68,17 +67,17 @@ STATE_CACHE = TTLCache(maxsize=1, ttl=STATE_CACHING_SECONDS)
 ACCOUNT_URL = 'https://myaccount.google.com/?hl=en'
 
 
-@dataclass
 class Cookie:
     """Models a cookie."""
 
-    domain: str
-    flag: bool
-    path: str
-    secure: bool
-    expiry: int
-    name: str
-    value: str
+    def __init__(self, domain, flag, path, secure, expiry, name, value):
+        self.domain = domain
+        self.flag = flag
+        self.path = path
+        self.secure = secure
+        self.expiry = expiry
+        self.name = name
+        self.value = value
 
     def to_dict(self):
         """Returns the cookie as a dictionary.
@@ -87,6 +86,7 @@ class Cookie:
             cookie (dict): The dictionary with the required values of the cookie
 
         """
+        
         return {key: getattr(self, key) for key in ('domain', 'name', 'value', 'path')}
 
 
